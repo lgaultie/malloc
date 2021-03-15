@@ -6,62 +6,95 @@
 /*   By: heylor <heylor@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 14:19:46 by heylor            #+#    #+#             */
-/*   Updated: 2021/03/14 16:03:23 by heylor           ###   ########.fr       */
+/*   Updated: 2021/03/15 22:08:48 by heylor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
-#include <sys/mman.h>
-#include <unistd.h>
+#include <malloc.h>
 
-/*
-** mmap() handles the mapping of physical memory zones to virtual addresses
-** and returns a pointer to its start.
-** malloc is like a perfomance wrapper around mmap
-** We will preallocate more memory than needed, so we can avoid system calls 
-** at the cost of a small memory overhead. New malloc calls will fill 
-** the preallocated space until new space is needed.
-** The function getpagesize() returns the number of bytes in a memory
-** page, where “page” is a fixed-length block, the unit for memory
-** allocation and file mapping performed by mmap(2).
-** It’s better to use a multiple of getpagesize() for defining the size of heap. 
-** For example, my system has a pagesize of 4096 bytes (run getconf PAGE_SIZE).
-*/
+void *start = NULL;
 
-// void *mmap(void *addr, size_t length, int prot, int flags,
-//                  int fd, off_t offset);
-
-//     void *addr is the address we want to start mapping
-//     size_t length is the size we want to map in as integer
-//     PROT_READ|PROT_WRITE|PROT_EXEC options about page
-//     MAP_ANON|MAP_PRIVATE options about page
-
-void *allocate_memory(size_t size)
+void *allocate(size_t size)
 {
     printf("%s %d bytes\n", "allocated memory: ", (int)size);
     return (mmap(NULL, size, PROT_READ | PROT_WRITE,
         MAP_PRIVATE | MAP_ANON, -1, 0));    
 }
 
-int main(void)
+bool can_find_space_in_heap(size)
 {
-    size_t pagesize = getpagesize();
+    (void)size;
+    return false;
 
-    // Allocate
-    char * region = allocate_memory(pagesize);
-    if (region == MAP_FAILED) {
-        return -1;
+}
+
+void *place_in_heap(int size)
+{
+    (void)size;
+    return NULL;
+}
+
+int create_new_heap()
+{
+    t_heap *new_heap;
+    size_t pagesize;
+    
+    pagesize = getpagesize();
+    new_heap = allocate(pagesize);
+    if (new_heap == MAP_FAILED) {
+        return (ERROR);
     }
+    new_heap->next = NULL;
+    start = new_heap;
+    return (SUCCESS);
+}
 
-    // Populate
-    strcpy(region, "Hello, world!");
-    printf("Contents of region: %s\n", region);
+void *ft_malloc(int size)
+{
+    // True: could find heap and place block
+    // False: could not place block
+    bool blocked_placed = can_find_space_in_heap(size);
 
-    // Free
-    int unmap_result = munmap(region, pagesize);
-    if (unmap_result != 0) {
-        return -1;
+    // if false: create new heap
+    while (can_find_space_in_heap(size) == false)
+    {
+        // create heap
+        if (create_new_heap() == ERROR)
+        {
+            printf("%s", "could not create new heap");
+            return;
+        }
     }
-    return 0;
+    // place block
+    return (place_in_heap(size));
+
+
+
+    // // Populate
+    // strcpy(region, "Hello, world!");
+    // printf("Contents of region: %s\n", region);
+
+    // // Free
+    // int unmap_result = munmap(region, pagesize);
+    // if (unmap_result != 0) {
+    //     // return -1;
+    // }
+    // // return 0;
+}
+
+int main(int ac, char **av) {
+    int space;
+
+    printf("%p\n", &start);
+    if (start)
+        printf("heap exists alrdy\n");    
+    else
+        printf("first malloc\n");
+    if (ac == 2)
+        space = ft_atoi(av[1]);
+    else
+        return (ERROR);
+    void *mallocated_space = ft_malloc(space);
+    void *mallocated_space2 = ft_malloc(space);
+    return (SUCCESS);
 }

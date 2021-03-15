@@ -6,7 +6,7 @@
 /*   By: heylor <heylor@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:35 by heylor            #+#    #+#             */
-/*   Updated: 2021/03/14 16:46:12 by heylor           ###   ########.fr       */
+/*   Updated: 2021/03/15 20:35:36 by heylor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <sys/mman.h>
+#include <stdbool.h>
+
+# define SUCCESS	0
+# define ERROR		-1
 
 typedef struct		s_heap
 {
