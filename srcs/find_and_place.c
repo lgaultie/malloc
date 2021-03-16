@@ -6,7 +6,7 @@
 /*   By: heylor <heylor@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 09:34:46 by heylor            #+#    #+#             */
-/*   Updated: 2021/03/16 11:27:39 by heylor           ###   ########.fr       */
+/*   Updated: 2021/03/16 22:39:06 by heylor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,41 +17,38 @@
 ** or null if he can't find place.
 */
 
-void *can_find_space_in_heap(void *start, int size)
+void *find_space_in_heap(void *start, int size)
 {
-    t_heap *tmp;
+    t_block *tmp;
 
     tmp = start;
     if (tmp != NULL)
     {
         printf("%s: %d && %s: %d\n", "size of block", size, "tmp->total_size: ", tmp->total_size);
-        if (tmp->total_size >= size)
-            return (tmp);
-        else
+        while (tmp->next != NULL)
         {
-            while (tmp->next != NULL)
-            {
-                if (tmp->total_size >= size)
-                    return (tmp);
-                tmp = tmp->next;
-            }
+            if (tmp->free == 1 && tmp->total_size >= size)
+                return (tmp);
+            tmp = tmp->next;
         }
     }
     return (NULL);
 }
 
 /*
-** place_in_heap(): returns the pointer to the allocated area.
+** place_in_heap(): split the heap to create new area for block,
+** returns the pointer to the allocated area.
+** https://stackoverflow.com/questions/49999524/recoding-malloc-with-mmap-strange-segfault
 */
 
-void *place_in_heap(t_heap *heap, int size)
+void *place_in_heap(t_block *fitting_space, int size)
 {
-    if (heap != NULL)
-    {
-        ft_putstr("heap exists\n");
-        (void)size;
-        // TODO place block in heap
+    t_block *new;
 
+    if (fitting_space != NULL)
+    {
+        ft_putstr("fitting_space exists\n");
+        // TODO place block in fitting_space
     }
-    return heap;
+    return fitting_space;
 }
