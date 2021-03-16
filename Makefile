@@ -6,7 +6,7 @@
 #    By: heylor <heylor@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/14 16:24:16 by heylor            #+#    #+#              #
-#    Updated: 2021/03/14 16:41:38 by heylor           ###   ########.fr        #
+#    Updated: 2021/03/16 10:02:58 by heylor           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,10 @@ OBJDIR = obj
 SRCDIR = srcs
 INC = ./includes/
 
-SRCS =	malloc.c
+SRCS =	malloc.c			\
+		create_heap.c		\
+		find_and_place.c	\
+		main.c #TO REMOVE
 
 OBJ = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 #voir GNU 8.3 Functions for File Names

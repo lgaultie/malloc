@@ -6,7 +6,7 @@
 /*   By: heylor <heylor@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:35 by heylor            #+#    #+#             */
-/*   Updated: 2021/03/15 20:35:36 by heylor           ###   ########.fr       */
+/*   Updated: 2021/03/16 10:14:33 by heylor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <stdbool.h>
 
 # define SUCCESS	0
+# define FAILURE	1
 # define ERROR		-1
 
 typedef struct		s_heap
@@ -37,5 +38,10 @@ typedef struct		s_block
 	struct s_block	*prev;
 	struct s_block	*next;
 }					t_block;
+
+void	*ft_malloc(int size);
+void	*create_new_heap();
+bool	can_find_space_in_heap(void *start, int size);
+void	*place_in_heap(int size);
 
 #endif
