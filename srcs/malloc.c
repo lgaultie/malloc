@@ -6,7 +6,7 @@
 /*   By: heylor <heylor@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 14:19:46 by heylor            #+#    #+#             */
-/*   Updated: 2021/03/16 10:14:23 by heylor           ###   ########.fr       */
+/*   Updated: 2021/03/16 11:24:15 by heylor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int create_first_heap()
 {
     t_heap *new_heap;
 
-    new_heap = create_new_heap();
+    new_heap = create_new_heap(NULL);
     g_var_start = new_heap;
     return (SUCCESS);
 }
@@ -35,7 +35,8 @@ int create_first_heap()
 
 void *ft_malloc(int size)
 {
-    void *allocated_block;
+    void    *allocated_block;
+    t_heap  *heap_to_place;
 
     if (size < 1)
         return (NULL);
@@ -49,14 +50,15 @@ void *ft_malloc(int size)
     {
         printf("g_var_exist: not first malloc\n");
     }
-    while (can_find_space_in_heap(g_var_start, size) == false)
+    while ((heap_to_place = can_find_space_in_heap(g_var_start, size)) == NULL)
     {
-        if (create_new_heap() == NULL)
+        ft_putstr("can_find_space_in_heap --> FAIL\n");
+        if (create_new_heap(g_var_start) == NULL)
         {
             printf("%s", "could not create new heap");
             return (NULL);
         }
     }
-    allocated_block = place_in_heap(size);
+    allocated_block = place_in_heap(heap_to_place, size);
     return (allocated_block);
 }
