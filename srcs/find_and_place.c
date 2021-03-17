@@ -6,7 +6,7 @@
 /*   By: heylor <heylor@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 09:34:46 by heylor            #+#    #+#             */
-/*   Updated: 2021/03/16 22:39:06 by heylor           ###   ########.fr       */
+/*   Updated: 2021/03/17 13:54:07 by heylor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,20 @@ void *find_space_in_heap(void *start, int size)
     tmp = start;
     if (tmp != NULL)
     {
-        printf("%s: %d && %s: %d\n", "size of block", size, "tmp->total_size: ", tmp->total_size);
+        printf("%s: %d && %s: %d\n", "size of block", size, "tmp->size: ", tmp->size);
+        printf("tmp->is_free = %d\n", tmp->is_free);
         while (tmp->next != NULL)
         {
-            if (tmp->free == 1 && tmp->total_size >= size)
+            ft_putstr("in loop of find_space_in_heap\n");
+            if (tmp->is_free == true && tmp->size >= size)
+            {
+                ft_putstr("FOUND PLACE\n");
                 return (tmp);
+            }
             tmp = tmp->next;
         }
     }
-    return (NULL);
+    return NULL;
 }
 
 /*
@@ -41,14 +46,25 @@ void *find_space_in_heap(void *start, int size)
 ** https://stackoverflow.com/questions/49999524/recoding-malloc-with-mmap-strange-segfault
 */
 
-void *place_in_heap(t_block *fitting_space, int size)
+// block devient celui de devant, et on cree un new qui prend la suite
+void *place_in_heap(t_block *block, int size)
 {
+
     t_block *new;
 
-    if (fitting_space != NULL)
+    if (block != NULL)
     {
-        ft_putstr("fitting_space exists\n");
-        // TODO place block in fitting_space
+        // put new pointer after block
+        // should I consider size of struct?
+        new = block + sizeof(struct s_block) + size;
+
+        // new->size is what is left
+        new->size = block->size - size - sizeof(struct s_block);
+
+        block->is_free = false;
+        block->next = new;
+        new->next = NULL;
+        new->is_free = true;
     }
-    return fitting_space;
+    return block;
 }

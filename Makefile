@@ -6,7 +6,7 @@
 #    By: heylor <heylor@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/14 16:24:16 by heylor            #+#    #+#              #
-#    Updated: 2021/03/16 10:02:58 by heylor           ###   ########.fr        #
+#    Updated: 2021/03/17 13:13:18 by heylor           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCDIR = srcs
 INC = ./includes/
 
 SRCS =	malloc.c			\
-		create_heap.c		\
+		create_block.c		\
 		find_and_place.c	\
 		main.c #TO REMOVE
 

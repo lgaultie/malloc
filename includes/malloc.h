@@ -6,7 +6,7 @@
 /*   By: heylor <heylor@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:35 by heylor            #+#    #+#             */
-/*   Updated: 2021/03/16 22:19:35 by heylor           ###   ########.fr       */
+/*   Updated: 2021/03/17 13:37:30 by heylor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 
 typedef struct		s_block
 {
-	int				total_size;
-	int				free;			// 1 if free, 0 if occupied
+	int				size;
+	bool			is_free;
 	struct s_block	*next;
 }					t_block;
 
