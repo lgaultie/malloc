@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: heylor <heylor@student.42.fr>              +#+  +:+       +#+         #
+#    By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/03/14 16:24:16 by heylor            #+#    #+#              #
-#    Updated: 2021/03/17 13:13:18 by heylor           ###   ########.fr        #
+#    Created: 2021/08/26 15:38:56 by lgaultie          #+#    #+#              #
+#    Updated: 2021/08/26 15:39:18 by lgaultie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = malloc
 CC = @clang
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g3
 LIBDIR = libft
 LIB = $(LIBDIR)/libft.a
 OBJDIR = obj

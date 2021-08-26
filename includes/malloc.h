@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heylor <heylor@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/14 16:11:35 by heylor            #+#    #+#             */
-/*   Updated: 2021/03/17 13:37:30 by heylor           ###   ########.fr       */
+/*   Created: 2021/08/26 09:29:55 by lgaultie          #+#    #+#             */
+/*   Updated: 2021/08/26 17:34:18 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <sys/mman.h>
-#include <stdbool.h>
+# include <stdbool.h>
 
 # define SUCCESS	0
 # define ERROR		-1
@@ -27,6 +27,8 @@ typedef struct		s_block
 	int				size;
 	bool			is_free;
 	struct s_block	*next;
+	// void			*data;
+	// struct s_block	*prev;
 }					t_block;
 
 void	*ft_malloc(int size);
