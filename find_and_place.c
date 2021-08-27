@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:23:27 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/27 14:17:34 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/27 17:19:13 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ void *place_in_heap(t_block *block_with_space, int data_size)
         new_division->next = block_with_space->next;
         new_division->is_free = 1;
         block_with_space->next = new_division;
-        printf("New division size: %d \n", new_division->size);
+        printf("New division size: %d and address: %p\n", new_division->size, new_division);
     }
     block_with_space->size = data_size;
     block_with_space->is_free = 0;
-    printf("block with space after division: %d \n", block_with_space->size);
+    printf("block with space after division: %d and address: %p\n", block_with_space->size, block_with_space);
     return block_with_space;
 }

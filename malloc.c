@@ -6,13 +6,42 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:23:38 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/27 14:57:01 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/27 17:16:08 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <malloc.h>
 
 void *g_var_start = NULL;
+
+void	show_alloc_mem() {
+    t_block     *tmp;
+    int         total;
+    // 1 = tiny, 2 = small, 3 = large
+    int         tiny_small_large;
+
+    total = 0;
+    tmp = g_var_start;
+    tiny_small_large = 0;
+    while (tmp) {
+        if (tmp->size <= TINY && tiny_small_large != 1) {
+            printf("TINY: %p\n", tmp);
+            tiny_small_large = 1;
+        }
+        if (tmp->size <= LARGE && tmp->size > TINY && tiny_small_large != 2) {
+            printf("SMALL: %p\n", tmp);
+            tiny_small_large = 2;
+        }
+        if (tmp->size > LARGE && tiny_small_large != 3) {
+            printf("LARGE: %p\n", tmp);
+            tiny_small_large = 3;
+        }
+        printf("%p - %p : %d octets\n", tmp, tmp->next, tmp->size);
+        total = total + tmp->size;
+        tmp = tmp->next;
+    }
+    printf("Total: %d octets\n", total);
+}
 
 /*
 ** init_memory() creates a new block and point g_var_start to it
@@ -44,7 +73,7 @@ As we reuse free spaces, the must here would be to split the reused chunks
 ** that need to allocate large amounts of memory, as they would spawn a lot of chunks.
 */
 
-void *ft_malloc(int data_size)
+void *ft_malloc(size_t data_size)
 {
     void    *allocated_block;
     t_block  *block_with_space;

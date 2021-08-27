@@ -6,32 +6,53 @@
 #    By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/26 15:38:56 by lgaultie          #+#    #+#              #
-#    Updated: 2021/08/27 15:46:55 by lgaultie         ###   ########.fr        #
+#    Updated: 2021/08/27 16:52:44 by lgaultie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = lib_malloc.a
+ifeq ($(HOSTTYPE),)
+	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
+
+NAME = libft_malloc_$(HOSTTYPE).so
+LINK = libft_malloc.so
 CFLAGS = -Wall -Werror -Wextra -g3 #TO DO to g3 to remove (its for valgrind)
 CC = @clang
-SRCS = malloc.c			\
+SRCS = malloc.c				\
 		create_block.c		\
 		find_and_place.c
 OBJ = $(SRCS:.c=.o)
 INC = ./includes/
+
+all: $(NAME)
+	@printf "$(_CYAN)  _                   _ _   _      _                         _ _  \n"            
+	@printf "$(_CYAN) | |                 | | | (_)    | |                       | | |           \n"
+	@printf "$(_CYAN) | | __ _  __ _ _   _| | |_ _  ___|/  ___    _ __ ___   __ _| | | ___   ___  \n"
+	@printf "$(_CYAN) | |/ _' |/ _' | | | | | __| |/ _ \  / __|  | '_ ' _ \ / _' | | |/ _ \ / __| \n"
+	@printf "$(_CYAN) | | (_| | (_| | |_| | | |_| |  __/  \__ \  | | | | | | (_| | | | (_) | (__  \n"
+	@printf "$(_CYAN) |_|\__, |\__,_|\__,_|_|\__|_|\___|  |___/  |_| |_| |_|\__,_|_|_|\___/ \___| \n"
+	@printf "$(_CYAN)     __/ |                                                                 \n"
+	@printf "$(_CYAN)    |___/                                                                 \n$(_END)"
+
 
 $(NAME):
 	@printf "Creating .o ...\n"
 	@$(CC) $(CFLAGS) -c $(SRCS) -I$(INC)
 	@printf "Creating static library...\n"
 	@ar rcs $(NAME) $(OBJ)
+	@printf "Creating symlink...\n"
+	@ln -s $(NAME) $(LINK)
 # s permet de lancer ranlib
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@rm -f $(LINK)
 
 re: fclean all
+
+.PHONY: all re fclean clean
 
 # NAME = malloc
 # CC = @clang

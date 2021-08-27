@@ -6,13 +6,13 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:22:59 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/27 15:13:46 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/27 17:09:22 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <malloc.h>
 #include <string.h>
 #include <stdlib.h>
+#include "includes/malloc.h"
 
 int main(int ac, char **av) {
     int space;
@@ -81,6 +81,8 @@ int main(int ac, char **av) {
     strcpy(mallocated_space5, "Sayonara");
     printf("%s\n", mallocated_space5);
     printf("%p\n\n", mallocated_space5);
+
+    show_alloc_mem();
 
     // Free
     // int unmap_result = munmap(region, pagesize);
