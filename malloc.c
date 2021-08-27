@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:23:38 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/27 14:12:28 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/27 14:57:01 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void *ft_malloc(int data_size)
             return NULL;
     }
     while ((block_with_space = find_space_in_heap(g_var_start, data_size)) == NULL) {
-        ft_putstr("Couldn't find space: goes to create new block\n");
+        printf("Couldn't find space: goes to create new block\n");
         if (create_new_block(g_var_start) == NULL)
             return NULL;
     }

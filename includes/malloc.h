@@ -6,17 +6,17 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:29:55 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/27 13:16:46 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/27 15:12:13 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
 
-# include "../libft/libft.h"
 # include <stdio.h>
 # include <sys/mman.h>
 # include <stdbool.h>
+# include <unistd.h> // for getpagesize
 
 # define SUCCESS	0
 # define ERROR		-1

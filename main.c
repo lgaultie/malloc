@@ -6,18 +6,20 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:22:59 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/27 14:11:57 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/27 15:13:46 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <malloc.h>
+#include <string.h>
+#include <stdlib.h>
 
 int main(int ac, char **av) {
     int space;
 
     if (ac == 2)
     {
-        space = ft_atoi(av[1]);
+        space = atoi(av[1]);
     //     if (g_var_start)
     //         printf("heap exists alrdy\n");
     //     else
@@ -55,28 +57,28 @@ int main(int ac, char **av) {
     //     i++;
     // }
 
-    printf("\n\n%s\n", "ft_strcpy Hello into ft_malloc(space)");
-    ft_strcpy(mallocated_space, "Hello");
+    printf("\n\n%s\n", "strcpy Hello into ft_malloc(space)");
+    strcpy(mallocated_space, "Hello");
     printf("%s\n", mallocated_space);
     printf("%p\n\n", mallocated_space);
 
-    printf("%s\n", "ft_strcpy Byyyye into ft_malloc(546)");
-    ft_strcpy(mallocated_space2, "Byyyye");
+    printf("%s\n", "strcpy Byyyye into ft_malloc(546)");
+    strcpy(mallocated_space2, "Byyyye");
     printf("%s\n", mallocated_space2);
     printf("%p\n\n", mallocated_space2);
     
-    printf("%s\n", "ft_strcpy Sayonara into ft_malloc(5)");
-    ft_strcpy(mallocated_space3, "Sayonara");
+    printf("%s\n", "strcpy Sayonara into ft_malloc(5)");
+    strcpy(mallocated_space3, "Sayonara");
     printf("%s\n", mallocated_space3);
     printf("%p\n\n", mallocated_space3);
 
-    printf("%s\n", "ft_strcpy Sayonara into ft_malloc(6)");
-    ft_strcpy(mallocated_space4, "Sayonara");
+    printf("%s\n", "strcpy Sayonara into ft_malloc(6)");
+    strcpy(mallocated_space4, "Sayonara");
     printf("%s\n", mallocated_space4);
     printf("%p\n\n", mallocated_space4);
 
-    printf("%s\n", "ft_strcpy Sayonara into ft_malloc(7)");
-    ft_strcpy(mallocated_space5, "Sayonara");
+    printf("%s\n", "strcpy Sayonara into ft_malloc(7)");
+    strcpy(mallocated_space5, "Sayonara");
     printf("%s\n", mallocated_space5);
     printf("%p\n\n", mallocated_space5);
 
