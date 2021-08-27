@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:29:55 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/26 17:34:18 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/27 13:16:46 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 typedef struct		s_block
 {
 	int				size;
-	bool			is_free;
+	int				is_free; //0 no, 1 yes
 	struct s_block	*next;
 	// void			*data;
 	// struct s_block	*prev;

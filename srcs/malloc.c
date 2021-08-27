@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:23:38 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/26 17:28:31 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/27 14:12:28 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,7 @@ void *ft_malloc(int data_size)
         ft_putstr("Couldn't find space: goes to create new block\n");
         if (create_new_block(g_var_start) == NULL)
             return NULL;
-        // TODO need to merge blocks to have bigger space? If data_size > pagedata_size
     }
-    
     allocated_block = place_in_heap(block_with_space, data_size);
     return (allocated_block);
 }

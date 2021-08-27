@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:23:22 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/26 17:29:31 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/27 14:08:58 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void *create_new_block(t_block *start)
 {
     t_block *new_block;
     t_block *last;
+    size_t size;
     
     printf("---------------- CREATE NEW BLOCK of 4096 bytes --------------------\n");
     // The flags argument determines whether updates to the mapping are
@@ -54,15 +55,16 @@ void *create_new_block(t_block *start)
     //     same file, and are not carried through to the underlying
     //     file.  It is unspecified whether changes made to the file
     //     after the mmap() call are visible in the mapped region.
-    // getpagesize() renvoie 4096, la taille des pages
-    new_block = mmap(NULL, 4096, PROT_READ | PROT_WRITE,
+    size = getpagesize();
+    new_block = mmap(NULL, size, PROT_READ | PROT_WRITE,
         MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
     if (new_block == MAP_FAILED) {
         return (NULL);
     }
     // Initialize new block
-    new_block->is_free = true;
-    new_block->size = 4096;
+    new_block->is_free = 1;
+    // Take in account metadata
+    new_block->size = size - sizeof(struct s_block);
 
     // retrieve last block and make it point to new_block
     last = start;

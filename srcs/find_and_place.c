@@ -6,38 +6,42 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:23:27 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/26 17:28:57 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/27 14:17:34 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <malloc.h>
 
 /*
-** can_find_space_in_heap(): returns the pointer to the heap which has place,
-** or null if he can't find place.
+** can_find_space_in_heap(): returns the pointer to the heap which has place.
+** If it finds 2 free blocks in a row, merge them.
+** Returns null if he can't find place.
 */
 
 void *find_space_in_heap(void *start, int size)
 {
     t_block *tmp;
+    t_block *tmp2;
     int index;
 
     tmp = start;
     index = 1;
     if (tmp != NULL) {
-        while (tmp->next != NULL) {
-            printf("Check1 %s block nb %d of size %d, trying to put %d in\n", tmp->is_free ? "FREE" : "NOT FREE", index, tmp->size, size);
-            if (tmp->is_free == true && tmp->size >= size) {
+        while (tmp) {
+            // If needed merge blocks between them
+            if (tmp->is_free == 1 && tmp->next && tmp->next->is_free == 1){
+                printf("Merging blocks %d and %d of size: %d and %d\n", index, index + 1, tmp->size, tmp->next->size);
+                tmp2 = tmp->next;
+                tmp->next = tmp2->next;
+                tmp->size = tmp->size + tmp2->size + sizeof(struct s_block);
+            }
+            printf("Check %s block nb %d of size %d, trying to put %d in\n", tmp->is_free == 1 ? "FREE" : "NOT FREE", index, tmp->size, size);
+            if (tmp->is_free == 1 && tmp->size >= size) {
                 printf("FOUND PLACE in %s block nb %d of size %d, will put %d in\n", tmp->is_free ? "FREE" : "NOT FREE", index, tmp->size, size);
                 return (tmp);
             }
             tmp = tmp->next;
             index++;
-        }
-        printf("Check2 %s block nb %d of size %d, trying to put %d in\n", tmp->is_free ? "FREE" : "NOT FREE", index, tmp->size, size);
-        if (tmp->is_free == true && tmp->size >= size) {
-            printf("FOUND PLACE in %s block nb %d of size %d, will put %d in\n", tmp->is_free ? "FREE" : "NOT FREE", index, tmp->size, size);
-            return (tmp);
         }
     }
     return NULL;
@@ -58,41 +62,32 @@ void *place_in_heap(t_block *block_with_space, int data_size)
 {
 
     t_block *new_division;
-    int     new_division_size;
+    int     new_div_size;
 
     printf("block with space before division: %d \n", block_with_space->size);
-    ft_putstr("1\n");
     if (block_with_space == NULL)
         return NULL;
-    // put new_division pointer after block_with_space:
-    // block_with_space = 3, size struct = 1, data size = 2
-    // gives: 111 1 11 --> 6 nous fait tomber sur le dernier element, 7 après
-    // New div = 3 + 1 + 2 = 6 on tombe pas après! il faut faire +1 pour avoir 7 donc
-    new_division_size = block_with_space->size - data_size;
-    // new_division_size = block_with_space->size - data_size - sizeof(struct s_block);
-    ft_putstr("2\n");
-    
     // To prevent creating a block of size 0
-    if (new_division_size > 0) {
-        printf("New division size: %d \n", new_division_size);
-        ft_putstr("3\n");
-        // new_division = block_with_space + sizeof(struct s_block) + data_size;
+    // Size = space available minus data to put in minus metadata block size
+    new_div_size = block_with_space->size - data_size - sizeof(struct s_block);
+    if (new_div_size > 0) {
+        // put new_division pointer after block_with_space:
+        // block_with_space = 3, size struct = 1, data size = 2
+        // gives: 111 1 11 --> 6 nous fait tomber sur le dernier element, 7 après
+        // New div = 3 + 1 + 2 = 6 on tombe pas après! il faut faire +1 pour avoir 7 donc
+        // we return block+1 because we want to return a pointer to the region 
+        // after block_meta. Since block is a pointer of type struct block_meta, +1 increments the address by one sizeof(struct(block_meta)).
         new_division = (t_block *)((char *)(block_with_space + 1) + data_size);
+        // new_division = block_with_space + 1 + sizeof(struct s_block) + data_size;
         // new_division = block_with_space + 4096 - new_division_size;
-        ft_putstr("3.1\n");
-        new_division->size = new_division_size;
-        printf("new division->next is %p", new_division->next);
-        ft_putstr("3.2\n");
+        new_division->size = new_div_size;
         new_division->next = block_with_space->next;
-        ft_putstr("3.3\n");
-        new_division->is_free = true;
-        ft_putstr("3.4\n");
+        new_division->is_free = 1;
         block_with_space->next = new_division;
         printf("New division size: %d \n", new_division->size);
     }
-    ft_putstr("4\n");
     block_with_space->size = data_size;
-    block_with_space->is_free = false;
+    block_with_space->is_free = 0;
     printf("block with space after division: %d \n", block_with_space->size);
     return block_with_space;
 }
