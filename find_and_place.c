@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:23:27 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/27 17:19:13 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/30 18:31:22 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,13 @@ void *place_in_heap(t_block *block_with_space, int data_size)
         // gives: 111 1 11 --> 6 nous fait tomber sur le dernier element, 7 après
         // New div = 3 + 1 + 2 = 6 on tombe pas après! il faut faire +1 pour avoir 7 donc
         // we return block+1 because we want to return a pointer to the region 
-        // after block_meta. Since block is a pointer of type struct block_meta, +1 increments the address by one sizeof(struct(block_meta)).
+        // after block_meta. 
+        // Here, since block is a pointer of type struct block_meta, +1 increments the address by one sizeof(struct(block_meta)).
+        // if you do int *block; block++ it will increment of size(int)
+        // If we increment a pointer by 1, the pointer will start pointing to the immediate next location. 
+        // This is somewhat different from the general arithmetic since the value of the pointer will 
+        // get increased by the size of the data type to which the pointer is pointing.
+        // So we cast in char * becausesize of char is 1, so block_with_space + 1) points to size 1
         new_division = (t_block *)((char *)(block_with_space + 1) + data_size);
         // new_division = block_with_space + 1 + sizeof(struct s_block) + data_size;
         // new_division = block_with_space + 4096 - new_division_size;
@@ -89,5 +95,6 @@ void *place_in_heap(t_block *block_with_space, int data_size)
     block_with_space->size = data_size;
     block_with_space->is_free = 0;
     printf("block with space after division: %d and address: %p\n", block_with_space->size, block_with_space);
-    return block_with_space;
+    // return address+sizeof(s_block) to prevent overwritting metadata of the structure (as they are at the start of the block space)
+    return block_with_space + sizeof(struct s_block);
 }
