@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:23:27 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/30 18:31:22 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/30 20:41:06 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,22 @@
 void *find_space_in_heap(void *start, int size)
 {
     t_block *tmp;
-    t_block *tmp2;
+    // TODO to uncomment when ready for defragmentation
+    // t_block *tmp2;
     int index;
 
     tmp = start;
     index = 1;
     if (tmp != NULL) {
         while (tmp) {
-            // If needed merge blocks between them
-            if (tmp->is_free == 1 && tmp->next && tmp->next->is_free == 1){
-                printf("Merging blocks %d and %d of size: %d and %d\n", index, index + 1, tmp->size, tmp->next->size);
-                tmp2 = tmp->next;
-                tmp->next = tmp2->next;
-                tmp->size = tmp->size + tmp2->size + sizeof(struct s_block);
-            }
+            // TODO to uncomment when ready for defragmentation
+            // // If needed merge blocks between them
+            // if (tmp->is_free == 1 && tmp->next && tmp->next->is_free == 1){
+            //     printf("Merging blocks %d and %d of size: %d and %d\n", index, index + 1, tmp->size, tmp->next->size);
+            //     tmp2 = tmp->next;
+            //     tmp->next = tmp2->next;
+            //     tmp->size = tmp->size + tmp2->size + sizeof(struct s_block);
+            // }
             printf("Check %s block nb %d of size %d, trying to put %d in\n", tmp->is_free == 1 ? "FREE" : "NOT FREE", index, tmp->size, size);
             if (tmp->is_free == 1 && tmp->size >= size) {
                 printf("FOUND PLACE in %s block nb %d of size %d, will put %d in\n", tmp->is_free ? "FREE" : "NOT FREE", index, tmp->size, size);

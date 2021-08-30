@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:23:22 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/27 14:08:58 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/30 20:40:53 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,12 @@
 ** and errno is set to indicate the error.
 */
 
-void *create_new_block(t_block *start)
+void *create_new_block(t_block *start, size_t data_size)
 {
     t_block *new_block;
     t_block *last;
     size_t size;
     
-    printf("---------------- CREATE NEW BLOCK of 4096 bytes --------------------\n");
     // The flags argument determines whether updates to the mapping are
     // visible to other processes mapping the same region, and whether
     // updates are carried through to the underlying file.
@@ -56,15 +55,38 @@ void *create_new_block(t_block *start)
     //     file.  It is unspecified whether changes made to the file
     //     after the mmap() call are visible in the mapped region.
     size = getpagesize();
-    new_block = mmap(NULL, size, PROT_READ | PROT_WRITE,
-        MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-    if (new_block == MAP_FAILED) {
-        return (NULL);
+    /// TINY
+    if (data_size <= size){
+        printf("---------------- create TINY block of %zu bytes --------------------\n", size);
+        if ((new_block = mmap(NULL, size, PROT_READ | PROT_WRITE,
+            MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED){
+                return (NULL);
+            }
+            // Take in account metadata
+            new_block->size = size - sizeof(struct s_block);
+    }
+    /// SMALL
+    else if (data_size > size && data_size <= (size * 100)){
+        printf("---------------- create SMALL block of %lu bytes --------------------\n", size*100);
+        if ((new_block = mmap(NULL, size*100, PROT_READ | PROT_WRITE,
+            MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED){
+                return (NULL);
+            }
+            // Take in account metadata
+            new_block->size = size*100 - sizeof(struct s_block);
+    }
+    /// LARGE
+    else {
+        printf("---------------- create LARGE block of %zu bytes --------------------\n", data_size);
+        if ((new_block = mmap(NULL, data_size, PROT_READ | PROT_WRITE,
+            MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED){
+                return (NULL);
+            }
+            // Take in account metadata
+            new_block->size = data_size - sizeof(struct s_block);
     }
     // Initialize new block
     new_block->is_free = 1;
-    // Take in account metadata
-    new_block->size = size - sizeof(struct s_block);
 
     // retrieve last block and make it point to new_block
     last = start;

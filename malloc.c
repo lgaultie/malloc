@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:23:38 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/27 17:16:08 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/30 20:23:26 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ void	show_alloc_mem() {
 ** if block is null, return ERROR
 */
 
-int init_memory()
+int init_memory(size_t data_size)
 {
     t_block *new_block;
 
-    if ((new_block = create_new_block(NULL)) == NULL)
+    if ((new_block = create_new_block(NULL, data_size)) == NULL)
         return ERROR;
     g_var_start = new_block;
     return SUCCESS;
@@ -81,12 +81,12 @@ void *ft_malloc(size_t data_size)
     if (data_size < 1)
         return NULL;
     if (!g_var_start) {
-        if (init_memory() != SUCCESS)
+        if (init_memory(data_size) != SUCCESS)
             return NULL;
     }
     while ((block_with_space = find_space_in_heap(g_var_start, data_size)) == NULL) {
         printf("Couldn't find space: goes to create new block\n");
-        if (create_new_block(g_var_start) == NULL)
+        if (create_new_block(g_var_start, data_size) == NULL)
             return NULL;
     }
     allocated_block = place_in_heap(block_with_space, data_size);

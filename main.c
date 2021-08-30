@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 09:22:59 by lgaultie          #+#    #+#             */
-/*   Updated: 2021/08/27 17:09:22 by lgaultie         ###   ########.fr       */
+/*   Updated: 2021/08/30 20:41:53 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ int main(int ac, char **av) {
     void *mallocated_space = ft_malloc(space);
     printf("%p\n\n", mallocated_space);
 
+    printf(" \\\\\\\\ %s\n", "ft_malloc(3534534535) \\\\\\\\");
+    void *mallocated_space4 = ft_malloc(35344);
+    printf("%p\n\n", mallocated_space4);
+
     printf(" \\\\\\\\ %s\n", "ft_malloc(500) \\\\\\\\");
     void *mallocated_space2 = ft_malloc(500);
     printf("%p\n\n", mallocated_space2);
@@ -42,10 +46,6 @@ int main(int ac, char **av) {
     printf(" \\\\\\\\ %s\n", "ft_malloc(5) \\\\\\\\");
     void *mallocated_space3 = ft_malloc(5);
     printf("%p\n\n", mallocated_space3);
-
-    printf(" \\\\\\\\ %s\n", "ft_malloc(3535) \\\\\\\\");
-    void *mallocated_space4 = ft_malloc(3535);
-    printf("%p\n\n", mallocated_space4);
 
     printf(" \\\\\\\\ %s\n", "ft_malloc(61) \\\\\\\\");
     void *mallocated_space5 = ft_malloc(61);
